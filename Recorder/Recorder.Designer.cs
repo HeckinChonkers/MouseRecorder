@@ -1,6 +1,6 @@
 ﻿namespace Recorder
 {
-    partial class Form1
+    partial class Recorder
     {
         /// <summary>
         /// Required designer variable.
@@ -54,13 +54,13 @@
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // Form1
+            // Recorder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(308, 34);
             this.Controls.Add(this.toolStrip1);
-            this.Name = "Form1";
+            this.Name = "Recorder";
             this.Text = "Form1";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

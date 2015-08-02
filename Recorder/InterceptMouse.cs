@@ -50,13 +50,13 @@ namespace Recorder
                     hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
                     switch((MouseMessages)wParam){
                         case(MouseMessages.WM_MOUSEMOVE):
-                            Form1.CaptureSequence += "{" + hookStruct.pt.x + ", " + hookStruct.pt.y + "};";
+                            Recorder.CaptureSequence += "{" + hookStruct.pt.x + ", " + hookStruct.pt.y + "};";
                             break;
                         case(MouseMessages.WM_LBUTTONDOWN):
-                            Form1.CaptureSequence += "LC;";
+                            Recorder.CaptureSequence += "LC;";
                             break;
                         case(MouseMessages.WM_RBUTTONDOWN):
-                            Form1.CaptureSequence += "RC;";
+                            Recorder.CaptureSequence += "RC;";
                             break;
                     }
                 }

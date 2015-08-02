@@ -48,7 +48,7 @@ namespace Recorder
                 Console.WriteLine((Keys)vkCode);
                 if ((Keys)vkCode == Keys.Escape)
                 {
-                    Form1.endKeyCaught.Set();
+                    Recorder.endKeyCaught.Set();
                 }
                     
             }

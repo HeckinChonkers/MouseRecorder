@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,14 +14,15 @@ using System.Windows.Forms;
 
 namespace Recorder
 {
-    public partial class Form1 : Form
+    public partial class Recorder : Form
     {
         public static string CaptureSequence = "";
         public static bool bCapRun = false, bThreadRunning = false;
         BackgroundWorker CaptureWatcher = new BackgroundWorker();
         public static AutoResetEvent endKeyCaught = new AutoResetEvent(false);
+        SaveFileDialog sfd;
 
-        public Form1()
+        public Recorder()
         {
             CaptureWatcher.WorkerSupportsCancellation = true;
             CaptureWatcher.DoWork += CaptureWatcher_DoWork;
@@ -51,6 +53,23 @@ namespace Recorder
             }
             else
             {
+                if (!string.IsNullOrEmpty(CaptureSequence))
+                {
+                    if (MessageBox.Show("You have a previous recording stored. Would you like to save that recording before starting a new one?", "Previous Recording Stored", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        sfd = new SaveFileDialog();
+                        sfd.Filter = "Recording | *.rcd";
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            using (StreamWriter file = new StreamWriter(sfd.FileName))
+                            {
+                                file.WriteLine(CaptureSequence);
+                            }
+                        }
+                    }
+
+                    CaptureSequence = string.Empty;
+                }
                 bCapRun = true;
                 InterceptKeyboard.StartCapture();
                 InterceptMouse.StartCapture();
