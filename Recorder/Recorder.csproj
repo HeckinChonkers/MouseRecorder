@@ -89,7 +89,7 @@
     <None Include="Resources\offIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\playIcon.jpg" />
+    <None Include="Resources\playIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

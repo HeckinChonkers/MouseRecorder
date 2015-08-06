@@ -1,6 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
-namespace Mouse_Clicker
+namespace Recorder
 {
     public static class VirtualMouse
     {
@@ -30,6 +31,20 @@ namespace Mouse_Clicker
             mouse_event(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, mappedX, mappedY, 0, 0);
         }
 
+        public static void MoveTo(string coordinates)
+        {
+            coordinates = coordinates.Replace("{", "").Replace("}", "");
+            float x = Convert.ToInt64(coordinates.Substring(0, coordinates.IndexOf(",")));
+            float y = Convert.ToInt64(coordinates.Substring(coordinates.IndexOf(",") + 1));
+
+            float min = 0;
+            float max = 65535;
+
+            int mappedX = (int)Remap(x, 0.0f, 1920.0f, min, max);
+            int mappedY = (int)Remap(y, 0.0f, 1080.0f, min, max);
+
+            mouse_event(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, mappedX, mappedY, 0, 0);
+        }
 
         public static float Remap(float value, float from1, float to1, float from2, float to2)
         {
