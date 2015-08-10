@@ -81,5 +81,15 @@ namespace Recorder
         {
             mouse_event(MOUSEEVENTF_RIGHTUP, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, 0, 0);
         }
+
+        public static void WheelUp()
+        {
+            mouse_event(MOUSEEVENTF_MIDDLEUP, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, 0, 0);
+        }
+
+        public static void WheelDown()
+        {
+            mouse_event(MOUSEEVENTF_MIDDLEDOWN, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, 0, 0);
+        }
     }
 }

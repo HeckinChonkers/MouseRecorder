@@ -16,18 +16,22 @@ namespace Recorder
 {
     public partial class Recorder : Form
     {
-        public static string CaptureSequence = "", LoadedSequence = "";
-        public static bool bCapRun = false, bThreadRunning = false;
+        public static StringBuilder LoadedSequence;
+        public static bool bCapRun, bThreadRunning, isDirty;
+        public static Queue<string> CaptureQueue;
         BackgroundWorker CaptureWatcher = new BackgroundWorker();
         public static AutoResetEvent endKeyCaught = new AutoResetEvent(false);
         SaveFileDialog sfd;
 
         public Recorder()
         {
+            CaptureQueue = new Queue<string>();
+            LoadedSequence = new StringBuilder();
             CaptureWatcher.WorkerSupportsCancellation = true;
             CaptureWatcher.DoWork += CaptureWatcher_DoWork;
             InitializeComponent();
             bThreadRunning = true;
+            isDirty = false;
             CaptureWatcher.RunWorkerAsync();
         }
 
@@ -48,12 +52,11 @@ namespace Recorder
                 bCapRun = false;
                 InterceptMouse.StopCapture();
                 InterceptKeyboard.StopCapture();
-                Console.WriteLine(CaptureSequence);
-                toolStripButton1.Image = global::Recorder.Properties.Resources.offIcon;
+                toolStripButton1.Image = Properties.Resources.offIcon;
             }
             else
             {
-                if (!string.IsNullOrEmpty(CaptureSequence))
+                if (CaptureQueue.Count > 0 && isDirty)
                 {
                     if (MessageBox.Show("You have a previous recording stored. Would you like to save that recording before starting a new one?", "Previous Recording Stored", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
@@ -63,24 +66,29 @@ namespace Recorder
                         {
                             using (StreamWriter file = new StreamWriter(sfd.FileName))
                             {
-                                file.WriteLine(CaptureSequence);
+                                foreach (string instr in CaptureQueue)
+                                {
+                                    file.Write(instr);
+                                }
                             }
                         }
                     }
-
-                    CaptureSequence = string.Empty;
+                    isDirty = false;
                 }
+
                 bCapRun = true;
+                CaptureQueue.Clear();
                 InterceptKeyboard.StartCapture();
                 InterceptMouse.StartCapture();
-                toolStripButton1.Image = global::Recorder.Properties.Resources.recordIcon;
+                isDirty = true;
+                toolStripButton1.Image = Properties.Resources.recordIcon;
             }
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             string fileContents = string.Empty;
-            if (!string.IsNullOrEmpty(CaptureSequence))
+            if (CaptureQueue.Count > 0 && isDirty)
             {
                 if (MessageBox.Show("You have a previous recording stored. Would you like to save that recording before opening a new one?", "Previous Recording Stored", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
@@ -90,12 +98,14 @@ namespace Recorder
                     {
                         using (StreamWriter file = new StreamWriter(sfd.FileName))
                         {
-                            file.WriteLine(CaptureSequence);
+                            foreach (string instr in CaptureQueue)
+                            {
+                                file.Write(instr);
+                            }
                         }
                     }
                 }
-
-                CaptureSequence = string.Empty;
+                isDirty = false;
             }
 
             OpenFileDialog ofd = new OpenFileDialog();
@@ -108,19 +118,32 @@ namespace Recorder
                    fileContents = reader.ReadToEnd();
             }
 
-            LoadedSequence = fileContents.Replace("\r\n", "");
+            CaptureQueue.Clear();
+            LoadIntoCaptureQueue(fileContents);
+        }
+
+        private void LoadIntoCaptureQueue(string fileContents)
+        {
+            string[] instructions = fileContents.Split(';');
+            foreach (string instr in instructions)
+            {
+                CaptureQueue.Enqueue(instr + ';');
+            }
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(LoadedSequence) && string.IsNullOrEmpty(CaptureSequence))
+            if ((LoadedSequence == null || LoadedSequence.ToString() == "") && CaptureQueue.Count == 0)
             {
                     MessageBox.Show("No recording loaded! Please load a recording or make a new one to play it back.");
                     return;
             }
-            else if (string.IsNullOrEmpty(LoadedSequence))
+
+            LoadedSequence.Clear();
+
+            foreach (string instr in CaptureQueue)
             {
-                LoadedSequence = CaptureSequence;
+                LoadedSequence.Append(instr);
             }
 
             MessageBox.Show("This will take over your mouse and perform the recording. Press okay when ready.");
@@ -130,18 +153,33 @@ namespace Recorder
 
         private void Playback()
         {
-            string[] instructions = LoadedSequence.Split(';');
+            string[] instructions = LoadedSequence.ToString().Split(';');
             for (int i = 0; i < instructions.Count(); i++)
             {
                 if (instructions[i].StartsWith("{") && instructions[i].EndsWith("}"))
                     VirtualMouse.MoveTo(instructions[i]);
-                else if (instructions[i] == "LC")
-                    VirtualMouse.LeftClick();
-                else if (instructions[i] == "RC")
-                    VirtualMouse.RightClick();
+                else if (instructions[i].StartsWith("[") && instructions[i].EndsWith("]"))
+                {
+                    int waitMS = Convert.ToInt32(instructions[i].Replace("[", "").Replace("]", ""));
+                    Thread.Sleep(waitMS);
+                }
+                else if (instructions[i] == "LCD")
+                    VirtualMouse.LeftDown();
+                else if (instructions[i] == "RCD")
+                    VirtualMouse.RightDown();
+                else if (instructions[i] == "LCU")
+                    VirtualMouse.LeftUp();
+                else if (instructions[i] == "RCU")
+                    VirtualMouse.RightUp();
+                else if (instructions[i] == "MWU")
+                    VirtualMouse.WheelUp();
+                else if (instructions[i] == "MWD")
+                    VirtualMouse.WheelDown();
 
-                Thread.Sleep(2);
+                //Thread.Sleep(1);
             }
+
+            this.WindowState = FormWindowState.Normal;
         }
     }
 }
