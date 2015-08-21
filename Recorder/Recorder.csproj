@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="InputSimulator">
+      <HintPath>.\InputSimulator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +47,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditRecording.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditRecording.Designer.cs">
+      <DependentUpon>EditRecording.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PointScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PointScreen.Designer.cs">
+      <DependentUpon>PointScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Recorder.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,19 +75,20 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirtualMouse.cs" />
+    <EmbeddedResource Include="EditRecording.resx">
+      <DependentUpon>EditRecording.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PointScreen.resx">
+      <DependentUpon>PointScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Recorder.resx">
       <DependentUpon>Recorder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -90,6 +111,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\playIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Oxygen-Icons.org-Oxygen-Places-folder-yellow.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\onplay-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Programming-Save-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Programming-Save-As-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

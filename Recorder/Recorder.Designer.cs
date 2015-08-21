@@ -30,9 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Recorder));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.RecordBtn = new System.Windows.Forms.ToolStripButton();
+            this.SaveRecordingBtn = new System.Windows.Forms.ToolStripButton();
+            this.SaveAsBtn = new System.Windows.Forms.ToolStripButton();
+            this.OpenRecordingBtn = new System.Windows.Forms.ToolStripButton();
+            this.PlayBackBtn = new System.Windows.Forms.ToolStripButton();
+            this.EditRecordingBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,44 +43,77 @@
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton3});
+            this.RecordBtn,
+            this.SaveRecordingBtn,
+            this.SaveAsBtn,
+            this.OpenRecordingBtn,
+            this.PlayBackBtn,
+            this.EditRecordingBtn});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(308, 34);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // RecordBtn
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::Recorder.Properties.Resources.offIcon;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 31);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.RecordBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RecordBtn.Image = global::Recorder.Properties.Resources.offIcon;
+            this.RecordBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RecordBtn.Name = "RecordBtn";
+            this.RecordBtn.Size = new System.Drawing.Size(23, 31);
+            this.RecordBtn.Text = "Start New Recording";
+            this.RecordBtn.Click += new System.EventHandler(this.RecordBtn_Click);
             // 
-            // toolStripButton2
+            // SaveRecordingBtn
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 31);
-            this.toolStripButton2.Text = "toolStripButton2";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.SaveRecordingBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SaveRecordingBtn.Image = global::Recorder.Properties.Resources.Programming_Save_icon;
+            this.SaveRecordingBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveRecordingBtn.Name = "SaveRecordingBtn";
+            this.SaveRecordingBtn.Size = new System.Drawing.Size(23, 31);
+            this.SaveRecordingBtn.Text = "Save Recording";
+            this.SaveRecordingBtn.Click += new System.EventHandler(this.SaveRecordingBtn_Click);
             // 
-            // toolStripButton3
+            // SaveAsBtn
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 31);
-            this.toolStripButton3.Text = "toolStripButton3";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.SaveAsBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SaveAsBtn.Image = global::Recorder.Properties.Resources.Programming_Save_As_icon;
+            this.SaveAsBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveAsBtn.Name = "SaveAsBtn";
+            this.SaveAsBtn.Size = new System.Drawing.Size(23, 31);
+            this.SaveAsBtn.Text = "Save As...";
+            this.SaveAsBtn.Click += new System.EventHandler(this.SaveAsBtn_Click);
+            // 
+            // OpenRecordingBtn
+            // 
+            this.OpenRecordingBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.OpenRecordingBtn.Image = ((System.Drawing.Image)(resources.GetObject("OpenRecordingBtn.Image")));
+            this.OpenRecordingBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenRecordingBtn.Name = "OpenRecordingBtn";
+            this.OpenRecordingBtn.Size = new System.Drawing.Size(23, 31);
+            this.OpenRecordingBtn.Text = "Open Recording";
+            this.OpenRecordingBtn.Click += new System.EventHandler(this.OpenFileBtn_Click);
+            // 
+            // PlayBackBtn
+            // 
+            this.PlayBackBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.PlayBackBtn.Image = global::Recorder.Properties.Resources.play_icon;
+            this.PlayBackBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PlayBackBtn.Name = "PlayBackBtn";
+            this.PlayBackBtn.Size = new System.Drawing.Size(23, 31);
+            this.PlayBackBtn.Text = "Play Back";
+            this.PlayBackBtn.Click += new System.EventHandler(this.PlayBackBtn_Click);
+            // 
+            // EditRecordingBtn
+            // 
+            this.EditRecordingBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.EditRecordingBtn.Image = ((System.Drawing.Image)(resources.GetObject("EditRecordingBtn.Image")));
+            this.EditRecordingBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.EditRecordingBtn.Name = "EditRecordingBtn";
+            this.EditRecordingBtn.Size = new System.Drawing.Size(23, 31);
+            this.EditRecordingBtn.Text = "Edit Recording";
+            this.EditRecordingBtn.Click += new System.EventHandler(this.EditRecordingBtn_Click);
             // 
             // Recorder
             // 
@@ -87,6 +123,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Name = "Recorder";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Recorder_FormClosing);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -97,9 +134,12 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton RecordBtn;
+        private System.Windows.Forms.ToolStripButton OpenRecordingBtn;
+        private System.Windows.Forms.ToolStripButton PlayBackBtn;
+        private System.Windows.Forms.ToolStripButton SaveRecordingBtn;
+        private System.Windows.Forms.ToolStripButton SaveAsBtn;
+        private System.Windows.Forms.ToolStripButton EditRecordingBtn;
     }
 }
 

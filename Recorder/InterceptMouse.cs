@@ -12,14 +12,11 @@ namespace Recorder
     {
         private static LowLevelMouseProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
-        private static long firstTime, secondTime;
-        private static bool measureTime;
-        private static Stopwatch stpWtch;
+        public static Stopwatch stpWtch;
 
         public static void StartCapture()
         {
             stpWtch = new Stopwatch();
-            measureTime = false;
             stpWtch.Start();
             _hookID = SetHook(_proc);
         }
@@ -27,7 +24,6 @@ namespace Recorder
         public static void StopCapture()
         {
             UnhookWindowsHookEx(_hookID);
-            measureTime = true;
         }
 
         private static IntPtr SetHook(LowLevelMouseProc proc)
@@ -47,10 +43,8 @@ namespace Recorder
         {
             MSLLHOOKSTRUCT hookStruct;
 
-            int deltaTime = 0;
             stpWtch.Stop();
             Recorder.CaptureQueue.Enqueue("[" + (stpWtch.ElapsedMilliseconds + 1) + "];");
-            measureTime = true;
             stpWtch.Reset();
             stpWtch.Start();
 

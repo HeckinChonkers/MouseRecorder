@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsInput;
 
 namespace Recorder
 {
@@ -13,6 +14,8 @@ namespace Recorder
     {
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
+        private const int WM_SYSKEYDOWN = 0x0104;
+        private const int WM_SYSCOMMAND = 0x0112;
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
 
@@ -42,13 +45,37 @@ namespace Recorder
         private static IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN) || wParam == (IntPtr)WM_SYSCOMMAND || wParam == (IntPtr)WM_SYSKEYDOWN)
             {
+                InterceptMouse.stpWtch.Stop();
+                Recorder.CaptureQueue.Enqueue("[" + (InterceptMouse.stpWtch.ElapsedMilliseconds + 1) + "];");
+                InterceptMouse.stpWtch.Reset();
+                InterceptMouse.stpWtch.Start();
+
                 int vkCode = Marshal.ReadInt32(lParam);
-                Console.WriteLine((Keys)vkCode);
-                if ((Keys)vkCode == Keys.Escape)
+                if ((VirtualKeyCode)vkCode == VirtualKeyCode.F10)
                 {
                     Recorder.endKeyCaught.Set();
+                }
+                else if ((VirtualKeyCode)vkCode != VirtualKeyCode.LSHIFT && (VirtualKeyCode)vkCode != VirtualKeyCode.RSHIFT &&
+                    (VirtualKeyCode)vkCode != VirtualKeyCode.LCONTROL && (VirtualKeyCode)vkCode != VirtualKeyCode.RCONTROL &&
+                    (VirtualKeyCode)vkCode != VirtualKeyCode.RMENU && (VirtualKeyCode)vkCode != VirtualKeyCode.LMENU)
+                {
+                    string keypress = string.Empty;
+                    if (InputSimulator.IsKeyDown(VirtualKeyCode.SHIFT))
+                    {
+                        keypress += "SHIFT&";
+                    }
+                    if (InputSimulator.IsKeyDown(VirtualKeyCode.CONTROL))
+                    {
+                        keypress += "CONTROL&";
+                    }
+                    if (InputSimulator.IsKeyDown(VirtualKeyCode.MENU))
+                    {
+                        keypress += "ALT&";
+                    }
+                    keypress += vkCode;
+                    Recorder.CaptureQueue.Enqueue("(" + keypress + ");");
                 }
                     
             }
