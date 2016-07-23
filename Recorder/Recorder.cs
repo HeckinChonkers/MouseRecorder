@@ -25,6 +25,7 @@ namespace Recorder
         BackgroundWorker CaptureWatcher = new BackgroundWorker();
         public static AutoResetEvent endKeyCaught = new AutoResetEvent(false);
         SaveFileDialog sfd;
+        public static Screen currentScreen;
 
         public Recorder()
         {
@@ -36,6 +37,7 @@ namespace Recorder
             bThreadRunning = true;
             isDirty = false;
             CaptureWatcher.RunWorkerAsync();
+            currentScreen = Screen.FromControl(this);
         }
 
         void CaptureWatcher_DoWork(object sender, DoWorkEventArgs e)

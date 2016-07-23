@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Recorder
 {
@@ -20,13 +21,17 @@ namespace Recorder
         {
             mouse_event(MOUSEEVENTF_MOVE, xDelta, yDelta, 0, 0);
         }
+
         public static void MoveTo(float x, float y)
         {
             float min = 0;
             float max = 65535;
 
-            int mappedX = (int)Remap(x, 0.0f, 1920.0f, min, max);
-            int mappedY = (int)Remap(y, 0.0f, 1080.0f, min, max);
+            float currentWidth = (float)Recorder.currentScreen.Bounds.Width;
+            float currentHeight = (float)Recorder.currentScreen.Bounds.Height;
+
+            int mappedX = (int)Remap(x, 0.0f, currentWidth, min, max);
+            int mappedY = (int)Remap(y, 0.0f, currentHeight, min, max);
 
             mouse_event(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, mappedX, mappedY, 0, 0);
         }
@@ -40,8 +45,11 @@ namespace Recorder
             float min = 0;
             float max = 65535;
 
-            int mappedX = (int)Remap(x, 0.0f, 1920.0f, min, max);
-            int mappedY = (int)Remap(y, 0.0f, 1080.0f, min, max);
+            float currentWidth = (float)Recorder.currentScreen.Bounds.Width;
+            float currentHeight = (float)Recorder.currentScreen.Bounds.Height;
+
+            int mappedX = (int)Remap(x, 0.0f, currentWidth, min, max);
+            int mappedY = (int)Remap(y, 0.0f, currentHeight, min, max);
 
             mouse_event(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, mappedX, mappedY, 0, 0);
         }
