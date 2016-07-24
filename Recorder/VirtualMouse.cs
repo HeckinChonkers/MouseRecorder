@@ -16,6 +16,7 @@ namespace Recorder
         private const int MOUSEEVENTF_MIDDLEDOWN = 0x0020;
         private const int MOUSEEVENTF_MIDDLEUP = 0x0040;
         private const int MOUSEEVENTF_ABSOLUTE = 0x8000;
+        private const int MOUSEEVENTF_WHEEL = 0x0800;
 
         public static void Move(int xDelta, int yDelta)
         {
@@ -92,12 +93,22 @@ namespace Recorder
 
         public static void WheelUp()
         {
-            mouse_event(MOUSEEVENTF_MIDDLEUP, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, 0, 0);
+            mouse_event(MOUSEEVENTF_WHEEL, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, 120, 0);
         }
 
         public static void WheelDown()
         {
+            mouse_event(MOUSEEVENTF_WHEEL, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, -120, 0);
+        }
+
+        internal static void WheelButtonDown()
+        {
             mouse_event(MOUSEEVENTF_MIDDLEDOWN, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, 0, 0);
+        }
+
+        internal static void WheelButtonUp()
+        {
+            mouse_event(MOUSEEVENTF_MIDDLEUP, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, 0, 0);
         }
     }
 }

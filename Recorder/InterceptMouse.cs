@@ -76,6 +76,12 @@ namespace Recorder
                         else
                             Recorder.CaptureQueue.Enqueue("MWD;");
                         break;
+                    case (MouseMessages.WM_MBUTTONDOWN):
+                        Recorder.CaptureQueue.Enqueue("MBD;");
+                        break;
+                    case (MouseMessages.WM_MBUTTONUP):
+                        Recorder.CaptureQueue.Enqueue("MBU;");
+                        break;
                 }
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
@@ -90,7 +96,9 @@ namespace Recorder
             WM_MOUSEMOVE = 0x0200,
             WM_MOUSEWHEEL = 0x020A,
             WM_RBUTTONDOWN = 0x0204,
-            WM_RBUTTONUP = 0x0205
+            WM_RBUTTONUP = 0x0205,
+            WM_MBUTTONDOWN = 0x0207,
+            WM_MBUTTONUP = 0x0208
         }
 
         [StructLayout(LayoutKind.Sequential)]

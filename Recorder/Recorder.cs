@@ -193,7 +193,7 @@ namespace Recorder
 
                     int keystroke = Convert.ToInt32(enteredKey);
                     Console.WriteLine((VirtualKeyCode)keystroke);
-                    switch(keystroke)
+                    switch (keystroke)
                     {
                         case (int)Keys.Enter:
                             InputSimulator.SimulateKeyPress(VirtualKeyCode.RETURN);
@@ -221,11 +221,11 @@ namespace Recorder
 
                             if (vkc.Count > 0)
                             {
-                                InputSimulator.SimulateModifiedKeyStroke(vkc.ToArray(), (VirtualKeyCode) keystroke);
+                                InputSimulator.SimulateModifiedKeyStroke(vkc.ToArray(), (VirtualKeyCode)keystroke);
                             }
                             else
                             {
-                                InputSimulator.SimulateKeyPress((VirtualKeyCode) keystroke);
+                                InputSimulator.SimulateKeyPress((VirtualKeyCode)keystroke);
                             }
                             break;
 
@@ -243,6 +243,10 @@ namespace Recorder
                     VirtualMouse.WheelUp();
                 else if (instructions[i] == "MWD")
                     VirtualMouse.WheelDown();
+                else if (instructions[i] == "MBD")
+                    VirtualMouse.WheelButtonDown();
+                else if (instructions[i] == "MBU")
+                    VirtualMouse.WheelButtonUp();
 
                 //Thread.Sleep(1);
             }
